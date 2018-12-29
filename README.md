@@ -1,5 +1,4 @@
-# php-cs-fixer-ga
-GithubAction for PHP-CS-Fixer
+# GithubAction for PHP-CS-Fixer
 
 ## Usage
 
