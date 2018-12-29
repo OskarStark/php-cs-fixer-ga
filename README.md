@@ -36,7 +36,7 @@ https://cloud.docker.com/u/oskarstark/repository/docker/oskarstark/php-cs-fixer-
 
 You can run it in any given directory like this:
 
-`docker run --rm -it -v ${PWD}:/app oskarstark/php-cs-fixer-ga:latest`
+`docker run --rm -it -w=/app -v ${PWD}:/app oskarstark/php-cs-fixer-ga:latest`
 
 ## A picture is worth a thousand words
 
