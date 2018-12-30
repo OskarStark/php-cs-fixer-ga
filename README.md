@@ -4,7 +4,7 @@
 
 You can use it as a Github Action like this:
 
-_.github/rst.workflow_
+_.github/main.workflow_
 ```
 workflow "Test" {
   on = "push"
