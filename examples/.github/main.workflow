@@ -1,4 +1,4 @@
-workflow "Lint" {
+workflow "Main" {
   on = "push"
   resolves = ["PHP-CS-Fixer"]
 }

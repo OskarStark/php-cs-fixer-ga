@@ -6,7 +6,7 @@ You can use it as a Github Action like this:
 
 _.github/main.workflow_
 ```
-workflow "Test" {
+workflow "Main" {
   on = "push"
   resolves = ["PHP-CS-Fixer"]
 }
@@ -19,6 +19,11 @@ action "PHP-CS-Fixer" {
 
 _to use a custom config for example, --diff and --dry-run option:_
 ```diff
+workflow "Main" {
+  on = "push"
+  resolves = ["PHP-CS-Fixer"]
+}
+
 action "PHP-CS-Fixer" {
   uses = "docker://oskarstark/php-cs-fixer-ga"
   secrets = ["GITHUB_TOKEN"]
