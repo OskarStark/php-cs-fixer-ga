@@ -13,7 +13,6 @@ workflow "Main" {
 
 action "PHP-CS-Fixer" {
   uses = "docker://oskarstark/php-cs-fixer-ga"
-  secrets = ["GITHUB_TOKEN"]
 }
 ```
 
@@ -26,7 +25,6 @@ workflow "Main" {
 
 action "PHP-CS-Fixer" {
   uses = "docker://oskarstark/php-cs-fixer-ga"
-  secrets = ["GITHUB_TOKEN"]
 +  args = "--config=.project.php_cs --diff --dry-run"
 }
 ```
