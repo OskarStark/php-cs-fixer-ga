@@ -5,6 +5,5 @@ workflow "Main" {
 
 action "PHP-CS-Fixer" {
   uses = "docker://oskarstark/php-cs-fixer-ga"
-  secrets = ["GITHUB_TOKEN"]
   args = "--diff --dry-run"
 }
