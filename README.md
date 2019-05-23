@@ -34,7 +34,7 @@ action "PHP-CS-Fixer" {
 ## Docker
 
 A Docker-Image is built automatically and located here:
-https://cloud.docker.com/u/oskarstark/repository/docker/oskarstark/php-cs-fixer-ga
+https://hub.docker.com/r/oskarstark/php-cs-fixer-ga
 
 You can run it in any given directory like this:
 
