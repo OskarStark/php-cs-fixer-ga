@@ -4,29 +4,34 @@
 
 You can use it as a Github Action like this:
 
-_.github/main.workflow_
+_.github/workflows/push.yml_
 ```
-workflow "Main" {
-  on = "push"
-  resolves = ["PHP-CS-Fixer"]
-}
-
-action "PHP-CS-Fixer" {
-  uses = "docker://oskarstark/php-cs-fixer-ga"
-}
+on: push
+name: Main
+jobs:
+  php-cs-fixer:
+    name: PHP-CS-Fixer
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: PHP-CS-Fixer
+      uses: docker://oskarstark/php-cs-fixer-ga
 ```
 
 _to use a custom config for example, --diff and --dry-run option:_
 ```diff
-workflow "Main" {
-  on = "push"
-  resolves = ["PHP-CS-Fixer"]
-}
-
-action "PHP-CS-Fixer" {
-  uses = "docker://oskarstark/php-cs-fixer-ga"
-+  args = "--config=.project.php_cs --diff --dry-run"
-}
+on: push
+name: Main
+jobs:
+  php-cs-fixer:
+    name: PHP-CS-Fixer
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: PHP-CS-Fixer
+      uses: docker://oskarstark/php-cs-fixer-ga
++      with:
++        args: --config=.project.php_cs --diff --dry-run
 ```
 
 **You can copy/paste the .github folder (under examples/) to your project and thats all!**
