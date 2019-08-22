@@ -1,4 +1,4 @@
-on: [push, pulkl_request]
+on: [push, pull_request]
 name: Lint
 jobs:
   php-cs-fixer:
