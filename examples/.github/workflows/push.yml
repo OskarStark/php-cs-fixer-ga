@@ -1,5 +1,5 @@
-on: push
-name: Main
+on: [push, pulkl_request]
+name: Lint
 jobs:
   php-cs-fixer:
     name: PHP-CS-Fixer
