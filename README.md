@@ -6,7 +6,7 @@ You can use it as a Github Action like this:
 
 _.github/workflows/push.yml_
 ```
-on: push
+on: [push, pull_request]
 name: Main
 jobs:
   php-cs-fixer:
@@ -20,7 +20,7 @@ jobs:
 
 _to use a custom config for example, --diff and --dry-run option:_
 ```diff
-on: push
+on: [push, pull_request]
 name: Main
 jobs:
   php-cs-fixer:
