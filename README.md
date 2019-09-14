@@ -5,7 +5,7 @@
 You can use it as a Github Action like this:
 
 _.github/workflows/lint.yml_
-```
+```yml
 on: [push, pull_request]
 name: Main
 jobs:
@@ -32,6 +32,24 @@ jobs:
       uses: docker://oskarstark/php-cs-fixer-ga
 +      with:
 +        args: --config=.project.php_cs --diff --dry-run
+```
+
+_to support fixing styles of a pull request via `/php-cs-fixer` keyword use:_
+
+```yml
+on: issue_comment:
+  types: [created]
+name: Main
+jobs:
+  php-cs-fixer-automatic:
+    name: PHP-CS-Fixer fix by keyword
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: PHP-CS-Fixer fix styles
+      uses: docker://oskarstark/php-cs-fixer-ga
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 **You can copy/paste the .github folder (under examples/) to your project and thats all!**
