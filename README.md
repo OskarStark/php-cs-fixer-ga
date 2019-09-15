@@ -37,8 +37,9 @@ jobs:
 _to support fixing styles of a pull request via `/php-cs-fixer` keyword use:_
 
 ```yml
-on: issue_comment:
-  types: [created]
+on:
+  issue_comment:
+    types: [created]
 name: Main
 jobs:
   php-cs-fixer-automatic:
