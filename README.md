@@ -36,6 +36,8 @@ jobs:
 
 _to support fixing styles of a pull request via `/php-cs-fixer` keyword use:_
 
+note: make sure you use the same php-version for the fixer action as your projects min-php version requirement. otherwise the fixer might introduce syntax errors.
+
 ```yaml
 on:
   issue_comment:
