@@ -19,8 +19,8 @@ if [ "$COMMENT_KEYWORD_FOUND" -eq 0 ]; then
   echo "Checking if issue is a pull request..."
   (jq -r ".issue.pull_request.url" "$GITHUB_EVENT_PATH") || exit $NEUTRAL_EXIT_CODE
 
-  git config --global user.email "action@github.com"
-  git config --global user.name "GitHub Action"
+  git config user.name "${GITHUB_ACTOR}"
+  git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
   
   git commit --all --message="Automatic codestyle fixes using PHP-CS-Fixer by GithubAction"
   git push -u origin HEAD
