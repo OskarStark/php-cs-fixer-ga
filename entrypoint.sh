@@ -22,6 +22,6 @@ if [ "$COMMENT_KEYWORD_FOUND" -eq 0 ]; then
   git config --global user.email "action@github.com"
   git config --global user.name "GitHub Action"
   
-  git commit --all --message="Fix Codestyle"
+  git commit --all --message="Automatic codestyle fixes using PHP-CS-Fixer by GithubAction"
   git push -u origin HEAD
 fi
