@@ -4,7 +4,7 @@ set -e
 
 NEUTRAL_EXIT_CODE=0
 
-if [ "GITHUB_EVENT_NAME" -eq "issue_comment" ]; then
+if [ "$GITHUB_EVENT_NAME" -eq "issue_comment" ]; then
   (jq -r ".comment.body" "$GITHUB_EVENT_PATH" | grep -Fq "/php-cs-fixer")
   COMMENT_KEYWORD_FOUND=$?
 
