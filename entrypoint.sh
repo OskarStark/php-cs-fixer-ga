@@ -2,8 +2,6 @@
 
 set -e
 
-NEUTRAL_EXIT_CODE=0
-
 if [ "$GITHUB_EVENT_NAME" -eq "issue_comment" ]; then
   (jq -r ".comment.body" "$GITHUB_EVENT_PATH" | grep -Fq "/php-cs-fixer")
   COMMENT_KEYWORD_FOUND=$?
@@ -18,7 +16,7 @@ if [ "$GITHUB_EVENT_NAME" -eq "issue_comment" ]; then
 
     # skip if not a PR
     echo "Checking if issue is a pull request..."
-    (jq -r ".issue.pull_request.url" "$GITHUB_EVENT_PATH") || exit $NEUTRAL_EXIT_CODE
+    (jq -r ".issue.pull_request.url" "$GITHUB_EVENT_PATH") || exit 0
 
     git config user.name "${GITHUB_ACTOR}"
     git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
