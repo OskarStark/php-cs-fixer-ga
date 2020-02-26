@@ -13,7 +13,7 @@ jobs:
     name: PHP-CS-Fixer
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
     - name: PHP-CS-Fixer
       uses: docker://oskarstark/php-cs-fixer-ga
 ```
@@ -27,7 +27,7 @@ jobs:
     name: PHP-CS-Fixer
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
     - name: PHP-CS-Fixer
       uses: docker://oskarstark/php-cs-fixer-ga
 +      with:
