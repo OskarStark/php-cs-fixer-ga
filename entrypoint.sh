@@ -1,4 +1,6 @@
 #!/bin/sh -l
 
-sh -c "/usr/local/bin/php-cs-fixer fix $*"
+set -e
 
+/usr/local/bin/php-cs-fixer --version
+/usr/local/bin/php-cs-fixer fix $*
