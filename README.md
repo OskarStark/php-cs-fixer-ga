@@ -5,7 +5,7 @@
 You can use it as a Github Action like this:
 
 _.github/workflows/lint.yml_
-```
+```yaml
 on: [push, pull_request]
 name: Main
 jobs:
