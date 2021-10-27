@@ -1,5 +1,7 @@
 # GithubAction for PHP-CS-Fixer
 
+> NOTE: If you didn't create a .php-cs-fixer.php file, do that first before adding this workflow. An example of this file created by the creators of php-cs-fixer can be found [here.](https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/master/.php-cs-fixer.dist.php)
+
 ## Usage
 
 You can use it as a Github Action like this:
