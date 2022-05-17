@@ -40,7 +40,9 @@ jobs:
 +       args: --config=.project.php_cs --diff --dry-run
 ```
 
-_An example leveraging the cache:_
+## Usage with cache
+
+Add `.php-cs-fixer.cache` to `.gitignore`, then:
 
 ```diff
 # .github/workflows/lint.yml
