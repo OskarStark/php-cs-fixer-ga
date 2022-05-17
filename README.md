@@ -44,9 +44,7 @@ jobs:
 
 Add `.php-cs-fixer.cache` to `.gitignore`, then:
 
-```diff
-# .github/workflows/lint.yml
-
+```
 on: [push, pull_request]
 name: Main
 jobs:
