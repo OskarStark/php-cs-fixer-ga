@@ -16,7 +16,7 @@ jobs:
     name: PHP-CS-Fixer
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: PHP-CS-Fixer
       uses: docker://oskarstark/php-cs-fixer-ga
 ```
@@ -33,11 +33,35 @@ jobs:
     name: PHP-CS-Fixer
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: PHP-CS-Fixer
       uses: docker://oskarstark/php-cs-fixer-ga
 +     with:
 +       args: --config=.project.php_cs --diff --dry-run
+```
+
+## Usage with cache
+
+Add `.php-cs-fixer.cache` to `.gitignore`, then:
+
+```
+on: [push, pull_request]
+name: Main
+jobs:
+  php-cs-fixer:
+    name: PHP-CS-Fixer
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v3
+        with:
+          path: .php-cs-fixer.cache
+          key: ${{ runner.OS }}-${{ github.repository }}-phpcsfixer-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.OS }}-${{ github.repository }}-phpcsfixer-
+
+      - name: PHP-CS-Fixer
+        uses: docker://oskarstark/php-cs-fixer-ga
 ```
 
 **You can copy/paste the `.github/` folder (under `examples/`) to your project and that's all!**
