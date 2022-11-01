@@ -12,4 +12,4 @@ name: 'OSKAR-PHP-CS-Fixer'
 
 runs:
     using: 'docker'
-    image: 'docker://oskarstark/php-cs-fixer-ga:3.12.0'
+    image: 'docker://oskarstark/php-cs-fixer-ga:3.13.0'
