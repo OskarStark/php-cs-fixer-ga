@@ -1,4 +1,4 @@
-FROM php:8.1-alpine
+FROM php:8.2-alpine
 
 LABEL "com.github.actions.name"="OSKAR-PHP-CS-Fixer"
 LABEL "com.github.actions.description"="check php files"
