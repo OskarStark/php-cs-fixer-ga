@@ -10,6 +10,7 @@ on:
 
 env:
     IMAGE: "oskarstark/php-cs-fixer-ga"
+    PLATFORMS: linux/arm/v7,linux/arm64/v8,linux/amd64
 
 jobs:
     build:
@@ -35,6 +36,10 @@ jobs:
               id: buildx
               uses: docker/setup-buildx-action@v2.9.1
 
+            - name: Set up QEMU
+              id: qemu
+              uses: docker/setup-qemu-action@v2
+
             - name: Build and push images
               uses: docker/build-push-action@v4
               with:
@@ -47,3 +52,4 @@ jobs:
                   context: .
                   cache-from: type=gha
                   cache-to: type=gha,mode=max
+                  platforms: ${{ env.PLATFORMS }}
