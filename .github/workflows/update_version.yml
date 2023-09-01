@@ -1,0 +1,92 @@
+name: Update version
+
+on:
+    workflow_dispatch:
+    schedule:
+        - cron: '30 */4 * * *'
+
+jobs:
+    update-version:
+        name: Automatically get latest PHPStan version and commit
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: "Checkout code"
+              uses: actions/checkout@v3
+              with:
+                  ref: master
+                  fetch-depth: '0'
+
+            - name: "Update Dockerfile and action.yml"
+              id: fetch_version
+              run: |
+                  latest=$(curl -s https://packagist.org/packages/friendsofphp/php-cs-fixer.json|jq '[.package.versions[]|select(.version|test("^\\d+\\.\\d+\\.\\d+$"))|.version]|max_by(.|[splits("[.]")]|map(tonumber))')
+                  latest=$(echo $latest | tr -d '"')
+                  echo "Latest PHP-CS-Fixer version is $latest"
+                  echo ::set-output name=latest::$latest
+                  sed -i -re "s/ENV VERSION=.*/ENV VERSION=$latest/" Dockerfile
+                  cat Dockerfile
+                  sed -i -re "s/php-cs-fixer-ga:[0-9.]+/php-cs-fixer-ga:$latest/" action.yml
+                  cat action.yml
+
+            - name: "Commit changes"
+              uses: stefanzweifel/git-auto-commit-action@v4
+              id: commit
+              with:
+                  commit_author: "Oskar Stark <oskarstark@googlemail.com>"
+                  commit_message: "Enhancement: Upgrade to PHP-CS-Fixer ${{ steps.fetch_version.outputs.latest }}"
+                  commit_user_email: "oskarstark@googlemail.com"
+                  commit_user_name: "Oskar Stark"
+
+            - name: "Tag version ${{ steps.fetch_version.outputs.latest }}"
+              uses: "anothrNick/github-tag-action@1.30.0"
+              if: steps.commit.outputs.changes_detected == 'true'
+              id: tag
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  CUSTOM_TAG: ${{ steps.fetch_version.outputs.latest }}
+                  RELEASE_BRANCHES: master
+
+            - name: "Create release ${{ steps.fetch_version.outputs.latest }}"
+              uses: actions/create-release@v1
+              if: steps.commit.outputs.changes_detected == 'true'
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  tag_name: ${{ steps.tag.outputs.new_tag }}
+                  release_name: ${{ steps.tag.outputs.new_tag }}
+                  commitish: master
+                  body: "Upgrade PHP-CS-Fixer to ${{ steps.tag.outputs.new_tag }}"
+
+    publish_docker_images:
+        needs: [update-version]
+        runs-on: ubuntu-20.04
+
+        if: github.ref == 'refs/heads/master' || github.event_name == 'release'
+        steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+        - name: Docker meta
+          id: meta
+          uses: crazy-max/ghaction-docker-meta@v2
+          with:
+              images: oskarstark/php-cs-fixer-ga
+              tags: |
+                  type=raw,value=latest,enable=${{ endsWith(github.ref, 'master') }}
+                  type=ref,event=tag
+              flavor: |
+                  latest=false
+        - name: Login to DockerHub
+          if: github.event_name != 'pull_request'
+          uses: docker/login-action@v1
+          with:
+              username: ${{ secrets.DOCKERHUB_USERNAME }}
+              password: ${{ secrets.DOCKERHUB_TOKEN }}
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+              context: .
+              push: ${{ github.event_name != 'pull_request' }}
+              tags: ${{ steps.meta.outputs.tags }}
+              labels: ${{ steps.meta.outputs.labels }}
