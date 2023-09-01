@@ -7,7 +7,7 @@ on:
 
 jobs:
     update-version:
-        name: Automatically get latest PHPStan version and commit
+        name: Automatically get latest PHP-CS-Fixer version and commit
 
         runs-on: ubuntu-latest
 
