@@ -21,7 +21,7 @@ jobs:
             - name: "Update Dockerfile and action.yml"
               id: fetch_version
               run: |
-                  latest=$(curl -s https://packagist.org/packages/friendsofphp/php-cs-fixer.json|jq '[.package.versions[]|select(.version|test("^\\d+\\.\\d+\\.\\d+$"))|.version]|max_by(.|[splits("[.]")]|map(tonumber))')
+                  latest=$(curl -s https://packagist.org/packages/friendsofphp/php-cs-fixer.json|jq '[.package.versions[]|select(.version|test("^v\\d+\\.\\d+\\.\\d+$"))|.version]|max_by(.|[splits("[.]")]|map(sub("v";"")|tonumber))|sub("v";"")')
                   latest=$(echo $latest | tr -d '"')
                   echo "Latest PHP-CS-Fixer version is $latest"
                   echo ::set-output name=latest::$latest
