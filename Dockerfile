@@ -11,7 +11,7 @@ LABEL "maintainer"="Oskar Stark <oskarstark@googlemail.com>"
 
 ENV VERSION=3.25.1
 
-RUN wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v{$VERSION}/php-cs-fixer.phar -O php-cs-fixer \
+RUN wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/$VERSION/php-cs-fixer.phar -O php-cs-fixer \
     && chmod a+x php-cs-fixer \
     && mv php-cs-fixer /usr/local/bin/php-cs-fixer
 
