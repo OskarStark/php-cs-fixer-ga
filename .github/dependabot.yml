@@ -1,0 +1,18 @@
+# https://help.github.com/en/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+
+updates:
+
+    -
+        commit-message:
+            include: "scope"
+            prefix: "github-actions"
+        directory: "/"
+        labels:
+            - "dependency"
+            - "automerge"
+        open-pull-requests-limit: 5
+        package-ecosystem: "github-actions"
+        schedule:
+            interval: "daily"
