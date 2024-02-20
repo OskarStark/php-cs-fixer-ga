@@ -87,7 +87,7 @@ jobs:
       - name: Get extra arguments for PHP-CS-Fixer
         id: phpcs-intersection
         run: |
-          CHANGED_FILES=$(echo "${{ steps.changed-files.outputs.all_changed_and_modified_files }}" | tr ' ' '\n')
+          CHANGED_FILES=$(echo "${{ steps.changed-files.outputs.all_changed_files }}" | tr ' ' '\n')
           if ! echo "${CHANGED_FILES}" | grep -qE "^(\\.php-cs-fixer(\\.dist)?\\.php|composer\\.lock)$"; then EXTRA_ARGS=$(printf -- '--path-mode=intersection\n--\n%s' "${CHANGED_FILES}"); else EXTRA_ARGS=''; fi
           echo "PHPCS_EXTRA_ARGS<<EOF" >> $GITHUB_ENV
           echo "$EXTRA_ARGS" >> $GITHUB_ENV
