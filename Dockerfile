@@ -9,7 +9,7 @@ LABEL "repository"="http://github.com/oskarstark/php-cs-fixer-ga"
 LABEL "homepage"="http://github.com/actions"
 LABEL "maintainer"="Oskar Stark <oskarstark@googlemail.com>"
 
-ENV VERSION=3.55.0
+ENV VERSION=3.56.0
 
 RUN wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v$VERSION/php-cs-fixer.phar -O php-cs-fixer \
     && chmod a+x php-cs-fixer \
