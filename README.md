@@ -83,20 +83,16 @@ jobs:
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v38
-
-      - name: Get extra arguments for PHP-CS-Fixer
-        id: phpcs-intersection
-        run: |
-          CHANGED_FILES=$(echo "${{ steps.changed-files.outputs.all_changed_files }}" | tr ' ' '\n')
-          if ! echo "${CHANGED_FILES}" | grep -qE "^(\\.php-cs-fixer(\\.dist)?\\.php|composer\\.lock)$"; then EXTRA_ARGS=$(printf -- '--path-mode=intersection\n--\n%s' "${CHANGED_FILES}"); else EXTRA_ARGS=''; fi
-          echo "PHPCS_EXTRA_ARGS<<EOF" >> $GITHUB_ENV
-          echo "$EXTRA_ARGS" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+        with:
+          files_ignore: |
+            .php-cs-fixer.*
+            composer.lock
 
       - name: PHP-CS-Fixer
+        if: steps.changed-files.outputs.any_changed == 'true'
         uses: docker://oskarstark/php-cs-fixer-ga
         with:
-          args: --config=.php-cs-fixer.dist.php -v --dry-run --stop-on-violation --using-cache=no ${{ env.PHPCS_EXTRA_ARGS }}"
+          args: --config=.php-cs-fixer.dist.php -v --dry-run --stop-on-violation --using-cache=no --path-mode=intersection -- ${{ steps.changed-files.outputs.all_changed_files }}"
 ```
 
 ## Docker
