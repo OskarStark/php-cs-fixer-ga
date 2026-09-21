@@ -18,7 +18,7 @@ jobs:
         runs-on: "ubuntu-latest"
         steps:
             - name: 'Checkout'
-              uses: 'actions/checkout@v3'
+              uses: 'actions/checkout@v4'
               with:
                 ref: '${{ github.head_ref }}'
 
@@ -27,21 +27,21 @@ jobs:
                 echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
             - name: Login to Dockerhub
-              uses: docker/login-action@v2
+              uses: docker/login-action@v3
               with:
                 username: ${{ secrets.DOCKERHUB_USERNAME }}
                 password: ${{ secrets.DOCKERHUB_TOKEN }}
 
             - name: Set up Docker Buildx
               id: buildx
-              uses: docker/setup-buildx-action@v2.9.1
+              uses: docker/setup-buildx-action@v3.4.0
 
             - name: Set up QEMU
               id: qemu
-              uses: docker/setup-qemu-action@v2
+              uses: docker/setup-qemu-action@v3
 
             - name: Build and push images
-              uses: docker/build-push-action@v4
+              uses: docker/build-push-action@v6
               with:
                   push: true
                   builder: ${{ steps.buildx.outputs.name }}

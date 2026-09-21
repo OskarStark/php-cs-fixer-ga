@@ -13,7 +13,7 @@ jobs:
 
         steps:
             - name: "Checkout code"
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
               with:
                   ref: master
                   fetch-depth: '0'
@@ -31,7 +31,7 @@ jobs:
                   cat action.yml
 
             - name: "Commit changes"
-              uses: stefanzweifel/git-auto-commit-action@v4
+              uses: stefanzweifel/git-auto-commit-action@v5
               id: commit
               with:
                   commit_author: "Oskar Stark <oskarstark@googlemail.com>"
@@ -40,7 +40,7 @@ jobs:
                   commit_user_name: "Oskar Stark"
 
             - name: "Tag version ${{ steps.fetch_version.outputs.latest }}"
-              uses: "anothrNick/github-tag-action@1.30.0"
+              uses: "anothrNick/github-tag-action@1.67.0"
               if: steps.commit.outputs.changes_detected == 'true'
               id: tag
               env:
@@ -66,10 +66,10 @@ jobs:
         if: github.ref == 'refs/heads/master' || github.event_name == 'release'
         steps:
         - name: Checkout
-          uses: actions/checkout@v3
+          uses: actions/checkout@v4
         - name: Docker meta
           id: meta
-          uses: crazy-max/ghaction-docker-meta@v2
+          uses: crazy-max/ghaction-docker-meta@v3
           with:
               images: oskarstark/php-cs-fixer-ga
               tags: |
@@ -79,12 +79,12 @@ jobs:
                   latest=false
         - name: Login to DockerHub
           if: github.event_name != 'pull_request'
-          uses: docker/login-action@v1
+          uses: docker/login-action@v3
           with:
               username: ${{ secrets.DOCKERHUB_USERNAME }}
               password: ${{ secrets.DOCKERHUB_TOKEN }}
         - name: Build and push
-          uses: docker/build-push-action@v2
+          uses: docker/build-push-action@v6
           with:
               context: .
               push: ${{ github.event_name != 'pull_request' }}
