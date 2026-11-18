@@ -44,3 +44,22 @@ To move to another PHP-CS-Fixer version, change `PHP_CS_FIXER_VERSION` and
 `php-cs-fixer.phar`), and the tag in `compose.yml` and in this file.
 
 To build the image locally: `docker compose build`.
+
+## Bumping PHP
+
+The image runs on `php:<version>-alpine`. When `mobsuccess` / `mobsuccess-app` move to a new PHP
+minor, this image must run that PHP too: PHP-CS-Fixer refuses (or warns about) a PHP version
+newer than the ones its release supports (3.13 stopped at 8.1).
+
+- **Bump PHP-CS-Fixer in the same PR** to a release that supports the target PHP. Since the tag
+  is the fixer version, changing only the PHP base would republish `v<same fixer>` with another
+  PHP and silently change every consumer. A new fixer version gives a new tag that consumers
+  adopt deliberately.
+- Consumers then restyle their code for the new fixer (42 files in `mobsuccess` #5228): do it in
+  their bump PR, or as a style-only PR first.
+- Check the base exists for amd64 and arm64: `docker manifest inspect php:<x.y.z>-alpine`.
+- Test: `docker compose build`, then `docker run --rm --entrypoint php <image> -v` and
+  `--entrypoint php-cs-fixer <image> --version`.
+
+Other repos pinning PHP, and the order: `mobsuccess` skill `bump-php`, atlas skill
+`php-runtime-upgrade`. CI images are bumped **first**: consumers point at a tag that must exist.
